@@ -15,6 +15,7 @@
 		A78F72892BC38280000919DE /* TypeReaderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78F72882BC38280000919DE /* TypeReaderUITests.swift */; };
 		A78F728B2BC38280000919DE /* TypeReaderUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78F728A2BC38280000919DE /* TypeReaderUITestsLaunchTests.swift */; };
 		A78F72982BC3840E000919DE /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78F72972BC3840E000919DE /* DocumentPicker.swift */; };
+		A78F729A2BC39267000919DE /* PDFTextExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78F72992BC39267000919DE /* PDFTextExtractor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 		A78F72882BC38280000919DE /* TypeReaderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeReaderUITests.swift; sourceTree = "<group>"; };
 		A78F728A2BC38280000919DE /* TypeReaderUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeReaderUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		A78F72972BC3840E000919DE /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
+		A78F72992BC39267000919DE /* PDFTextExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFTextExtractor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 				A78F72712BC3827F000919DE /* Assets.xcassets */,
 				A78F72732BC3827F000919DE /* Preview Content */,
 				A78F72972BC3840E000919DE /* DocumentPicker.swift */,
+				A78F72992BC39267000919DE /* PDFTextExtractor.swift */,
 			);
 			path = TypeReader;
 			sourceTree = "<group>";
@@ -260,6 +263,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A78F729A2BC39267000919DE /* PDFTextExtractor.swift in Sources */,
 				A78F72982BC3840E000919DE /* DocumentPicker.swift in Sources */,
 				A78F72702BC3827C000919DE /* ContentView.swift in Sources */,
 				A78F726E2BC3827C000919DE /* TypeReaderApp.swift in Sources */,
