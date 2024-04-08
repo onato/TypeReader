@@ -11,11 +11,13 @@
 		A78F72702BC3827C000919DE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78F726F2BC3827C000919DE /* ContentView.swift */; };
 		A78F72722BC3827F000919DE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A78F72712BC3827F000919DE /* Assets.xcassets */; };
 		A78F72752BC3827F000919DE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A78F72742BC3827F000919DE /* Preview Assets.xcassets */; };
-		A78F727F2BC38280000919DE /* TypeReaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78F727E2BC38280000919DE /* TypeReaderTests.swift */; };
 		A78F72892BC38280000919DE /* TypeReaderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78F72882BC38280000919DE /* TypeReaderUITests.swift */; };
 		A78F728B2BC38280000919DE /* TypeReaderUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78F728A2BC38280000919DE /* TypeReaderUITestsLaunchTests.swift */; };
 		A78F72982BC3840E000919DE /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78F72972BC3840E000919DE /* DocumentPicker.swift */; };
 		A78F729A2BC39267000919DE /* PDFTextExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78F72992BC39267000919DE /* PDFTextExtractor.swift */; };
+		A78F729C2BC393B7000919DE /* PDFTextExtractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78F729B2BC393B7000919DE /* PDFTextExtractorTests.swift */; };
+		A78F729F2BC39406000919DE /* Nimble in Frameworks */ = {isa = PBXBuildFile; productRef = A78F729E2BC39406000919DE /* Nimble */; };
+		A78F72A22BC3947C000919DE /* Lockhart_2002_-_A_Mathematician's_Lament.pdf in Resources */ = {isa = PBXBuildFile; fileRef = A78F72A12BC3947C000919DE /* Lockhart_2002_-_A_Mathematician's_Lament.pdf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,12 +44,13 @@
 		A78F72712BC3827F000919DE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A78F72742BC3827F000919DE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		A78F727A2BC38280000919DE /* TypeReaderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TypeReaderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		A78F727E2BC38280000919DE /* TypeReaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeReaderTests.swift; sourceTree = "<group>"; };
 		A78F72842BC38280000919DE /* TypeReaderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TypeReaderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A78F72882BC38280000919DE /* TypeReaderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeReaderUITests.swift; sourceTree = "<group>"; };
 		A78F728A2BC38280000919DE /* TypeReaderUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeReaderUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		A78F72972BC3840E000919DE /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
 		A78F72992BC39267000919DE /* PDFTextExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFTextExtractor.swift; sourceTree = "<group>"; };
+		A78F729B2BC393B7000919DE /* PDFTextExtractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFTextExtractorTests.swift; sourceTree = "<group>"; };
+		A78F72A12BC3947C000919DE /* Lockhart_2002_-_A_Mathematician's_Lament.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "Lockhart_2002_-_A_Mathematician's_Lament.pdf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A78F729F2BC39406000919DE /* Nimble in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,7 +123,8 @@
 		A78F727D2BC38280000919DE /* TypeReaderTests */ = {
 			isa = PBXGroup;
 			children = (
-				A78F727E2BC38280000919DE /* TypeReaderTests.swift */,
+				A78F72A02BC39468000919DE /* data */,
+				A78F729B2BC393B7000919DE /* PDFTextExtractorTests.swift */,
 			);
 			path = TypeReaderTests;
 			sourceTree = "<group>";
@@ -131,6 +136,14 @@
 				A78F728A2BC38280000919DE /* TypeReaderUITestsLaunchTests.swift */,
 			);
 			path = TypeReaderUITests;
+			sourceTree = "<group>";
+		};
+		A78F72A02BC39468000919DE /* data */ = {
+			isa = PBXGroup;
+			children = (
+				A78F72A12BC3947C000919DE /* Lockhart_2002_-_A_Mathematician's_Lament.pdf */,
+			);
+			path = data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -167,6 +180,9 @@
 				A78F727C2BC38280000919DE /* PBXTargetDependency */,
 			);
 			name = TypeReaderTests;
+			packageProductDependencies = (
+				A78F729E2BC39406000919DE /* Nimble */,
+			);
 			productName = TypeReaderTests;
 			productReference = A78F727A2BC38280000919DE /* TypeReaderTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -221,6 +237,9 @@
 				Base,
 			);
 			mainGroup = A78F72612BC3827C000919DE;
+			packageReferences = (
+				A78F729D2BC39406000919DE /* XCRemoteSwiftPackageReference "Nimble" */,
+			);
 			productRefGroup = A78F726B2BC3827C000919DE /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -246,6 +265,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A78F72A22BC3947C000919DE /* Lockhart_2002_-_A_Mathematician's_Lament.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,7 +294,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A78F727F2BC38280000919DE /* TypeReaderTests.swift in Sources */,
+				A78F729C2BC393B7000919DE /* PDFTextExtractorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -596,6 +616,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A78F729D2BC39406000919DE /* XCRemoteSwiftPackageReference "Nimble" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Quick/Nimble.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A78F729E2BC39406000919DE /* Nimble */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A78F729D2BC39406000919DE /* XCRemoteSwiftPackageReference "Nimble" */;
+			productName = Nimble;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A78F72622BC3827C000919DE /* Project object */;
 }
