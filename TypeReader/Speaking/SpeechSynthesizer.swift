@@ -44,9 +44,11 @@ class SpeechSynthesizer: NSObject, AVSpeechSynthesizerDelegate {
         }
     }
 
-    func speakText(_ text: String, language: String = "en-US", rate: Float = 0.5) {
+    func speakText(_ text: String, language: String = "en-UK", rate: Float = 0.5) {
         let utterance = AVSpeechUtterance(string: text)
-        utterance.voice = AVSpeechSynthesisVoice(language: language)
+
+        let voices = AVSpeechSynthesisVoice.speechVoices().filter { $0.language.hasPrefix(Locale.current.language.languageCode?.identifier ?? "en-US") }
+        utterance.voice = voices[0]
         utterance.rate = rate
         speechSynthesizer.speak(utterance)
         currentUtterance = utterance
