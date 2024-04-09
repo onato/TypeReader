@@ -28,8 +28,10 @@ struct ContentView: View {
                 } else {
                     TabView {
                         ForEach(0 ..< documentPages.count, id: \.self) { index in
-                            Text(documentPages[index])
-                                .padding()
+                            ScrollView {
+                                Text(documentPages[index])
+                                    .padding()
+                            }
                         }
                     }
                     .tabViewStyle(PageTabViewStyle())
