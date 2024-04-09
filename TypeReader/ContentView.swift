@@ -10,31 +10,48 @@ import SwiftUI
 struct ContentView: View {
     @State private var documentPages: [String] = []
     @State private var showDocumentPicker = false
+    @State private var showingSettings = false
 
     var body: some View {
-        VStack {
-            if documentPages.isEmpty {
-                Button("Select PDF") {
-                    showDocumentPicker = true
+        NavigationView {
+            VStack {
+                if documentPages.isEmpty {
+                    Button("Select PDF") {
+                        showDocumentPicker = true
+                    }
+                    .sheet(isPresented: $showDocumentPicker) {
+                        DocumentPicker { url in
+                            documentPages = PDFTextExtractor().extractPagesFromPDF(url: url)
+                            SpeechSynthesizer.shared.speakText(documentPages[1])
+                        }
+                    }
+                } else {
+                    TabView {
+                        ForEach(0 ..< documentPages.count, id: \.self) { index in
+                            Text(documentPages[index])
+                                .padding()
+                        }
+                    }
+                    .tabViewStyle(PageTabViewStyle())
+                    .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
                 }
-                .sheet(isPresented: $showDocumentPicker) {
-                    DocumentPicker { url in
-                        documentPages = PDFTextExtractor().extractPagesFromPDF(url: url)
-                        SpeechSynthesizer.shared.speakText(documentPages[0])
+            }
+            .padding()
+            .navigationBarTitle("Home", displayMode: .inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        showingSettings.toggle()
+                    }) {
+                        Image(systemName: "gear")
                     }
                 }
-            } else {
-                TabView {
-                    ForEach(0 ..< documentPages.count, id: \.self) { index in
-                        Text(documentPages[index])
-                            .padding()
-                    }
-                }
-                .tabViewStyle(PageTabViewStyle())
-                .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
             }
         }
-        .padding()
+        .sheet(isPresented: $showingSettings) {
+            // Content of the sheet
+            SpeechSettingsView()
+        }
     }
 }
 

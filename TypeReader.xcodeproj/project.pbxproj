@@ -19,6 +19,8 @@
 		A78F729F2BC39406000919DE /* Nimble in Frameworks */ = {isa = PBXBuildFile; productRef = A78F729E2BC39406000919DE /* Nimble */; };
 		A78F72A22BC3947C000919DE /* Lockhart_2002_-_A_Mathematician's_Lament.pdf in Resources */ = {isa = PBXBuildFile; fileRef = A78F72A12BC3947C000919DE /* Lockhart_2002_-_A_Mathematician's_Lament.pdf */; };
 		A78F72A52BC39B12000919DE /* SpeechSynthesizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78F72A42BC39B12000919DE /* SpeechSynthesizer.swift */; };
+		A78F72A92BC4BC65000919DE /* SpeechSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78F72A82BC4BC65000919DE /* SpeechSettingsViewModel.swift */; };
+		A78F72AC2BC4BC8D000919DE /* SpeechSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78F72AB2BC4BC8D000919DE /* SpeechSettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +56,8 @@
 		A78F72A12BC3947C000919DE /* Lockhart_2002_-_A_Mathematician's_Lament.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "Lockhart_2002_-_A_Mathematician's_Lament.pdf"; sourceTree = "<group>"; };
 		A78F72A42BC39B12000919DE /* SpeechSynthesizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechSynthesizer.swift; sourceTree = "<group>"; };
 		A78F72A62BC4AFBD000919DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		A78F72A82BC4BC65000919DE /* SpeechSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechSettingsViewModel.swift; sourceTree = "<group>"; };
+		A78F72AB2BC4BC8D000919DE /* SpeechSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechSettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +109,8 @@
 		A78F726C2BC3827C000919DE /* TypeReader */ = {
 			isa = PBXGroup;
 			children = (
+				A78F72AA2BC4BC7F000919DE /* Views */,
+				A78F72A72BC4BC4D000919DE /* ViewModels */,
 				A78F72A62BC4AFBD000919DE /* Info.plist */,
 				A78F72A32BC39B06000919DE /* Speaking */,
 				A78F726D2BC3827C000919DE /* TypeReaderApp.swift */,
@@ -157,6 +163,22 @@
 				A78F72A42BC39B12000919DE /* SpeechSynthesizer.swift */,
 			);
 			path = Speaking;
+			sourceTree = "<group>";
+		};
+		A78F72A72BC4BC4D000919DE /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				A78F72A82BC4BC65000919DE /* SpeechSettingsViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		A78F72AA2BC4BC7F000919DE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A78F72AB2BC4BC8D000919DE /* SpeechSettingsView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -297,9 +319,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				A78F72A52BC39B12000919DE /* SpeechSynthesizer.swift in Sources */,
+				A78F72A92BC4BC65000919DE /* SpeechSettingsViewModel.swift in Sources */,
 				A78F729A2BC39267000919DE /* PDFTextExtractor.swift in Sources */,
 				A78F72982BC3840E000919DE /* DocumentPicker.swift in Sources */,
 				A78F72702BC3827C000919DE /* ContentView.swift in Sources */,
+				A78F72AC2BC4BC8D000919DE /* SpeechSettingsView.swift in Sources */,
 				A78F726E2BC3827C000919DE /* TypeReaderApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
