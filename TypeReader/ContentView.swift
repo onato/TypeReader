@@ -11,6 +11,7 @@ struct ContentView: View {
     @State private var documentPages: [String] = []
     @State private var showDocumentPicker = false
     @State private var showingSettings = false
+    @State private var selectedTab = 1
 
     var body: some View {
         NavigationView {
@@ -22,16 +23,16 @@ struct ContentView: View {
                     .sheet(isPresented: $showDocumentPicker) {
                         DocumentPicker { url in
                             documentPages = PDFTextExtractor().extractPagesFromPDF(url: url)
-                            SpeechSynthesizer.shared.speakText(documentPages[1])
+                            SpeechSynthesizer.shared.speakText(documentPages[2])
                         }
                     }
                 } else {
-                    TabView {
+                    TabView(selection: $selectedTab) {
                         ForEach(0 ..< documentPages.count, id: \.self) { index in
                             ScrollView {
                                 Text(documentPages[index])
                                     .padding()
-                            }
+                            }.tag(index)
                         }
                     }
                     .tabViewStyle(PageTabViewStyle())
@@ -53,6 +54,9 @@ struct ContentView: View {
         .sheet(isPresented: $showingSettings) {
             // Content of the sheet
             SpeechSettingsView()
+        }
+        .onChange(of: selectedTab) { oldValue, newValue in
+            SpeechSynthesizer.shared.speakText(documentPages[selectedTab])
         }
     }
 }
