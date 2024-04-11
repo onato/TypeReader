@@ -2,12 +2,9 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var documentViewModel = DocumentViewModel()
-    @State private var showDocumentPicker = false
-    @State private var showingSettings = false
     
-    init(documentPages: [String] = [], showDocumentPicker: Bool = false, showingSettings: Bool = false, selectedTab: Int = 1) {
-        self.showDocumentPicker = showDocumentPicker
-        self.showingSettings = showingSettings
+    init(documentPages: [String] = []) {
+        self.documentViewModel.documentPages = documentPages
     }
 
     var body: some View {
@@ -15,9 +12,9 @@ struct ContentView: View {
             VStack {
                 if documentViewModel.documentPages.isEmpty {
                     Button("Select PDF") {
-                        showDocumentPicker = true
+                        documentViewModel.showDocumentPicker = true
                     }
-                    .sheet(isPresented: $showDocumentPicker) {
+                    .sheet(isPresented: $documentViewModel.showDocumentPicker) {
                         DocumentPicker { url in
                             documentViewModel.documentPages = PDFTextExtractor().extractPagesFromPDF(url: url)
                             SpeechSynthesizer.shared.speakText(documentViewModel.documentPages[documentViewModel.currentPage])
@@ -41,14 +38,14 @@ struct ContentView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        showingSettings.toggle()
+                        documentViewModel.showingSettings.toggle()
                     }) {
                         Image(systemName: "gear")
                     }
                 }
             }
         }
-        .sheet(isPresented: $showingSettings) {
+        .sheet(isPresented: $documentViewModel.showingSettings) {
             // Content of the sheet
             SpeechSettingsView()
         }
