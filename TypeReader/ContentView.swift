@@ -1,36 +1,33 @@
-//
-//  ContentView.swift
-//  TypeReader
-//
-//  Created by Stephen Williams on 08/04/2024.
-//
-
 import SwiftUI
 
 struct ContentView: View {
-    @State private var documentPages: [String] = []
+    @State private var documentViewModel = DocumentViewModel()
     @State private var showDocumentPicker = false
     @State private var showingSettings = false
-    @State private var selectedTab = 1
+    
+    init(documentPages: [String] = [], showDocumentPicker: Bool = false, showingSettings: Bool = false, selectedTab: Int = 1) {
+        self.showDocumentPicker = showDocumentPicker
+        self.showingSettings = showingSettings
+    }
 
     var body: some View {
         NavigationView {
             VStack {
-                if documentPages.isEmpty {
+                if documentViewModel.documentPages.isEmpty {
                     Button("Select PDF") {
                         showDocumentPicker = true
                     }
                     .sheet(isPresented: $showDocumentPicker) {
                         DocumentPicker { url in
-                            documentPages = PDFTextExtractor().extractPagesFromPDF(url: url)
-                            SpeechSynthesizer.shared.speakText(documentPages[2])
+                            documentViewModel.documentPages = PDFTextExtractor().extractPagesFromPDF(url: url)
+                            SpeechSynthesizer.shared.speakText(documentViewModel.documentPages[documentViewModel.currentPage])
                         }
                     }
                 } else {
-                    TabView(selection: $selectedTab) {
-                        ForEach(0 ..< documentPages.count, id: \.self) { index in
+                    TabView(selection: $documentViewModel.currentPage) {
+                        ForEach(0 ..< documentViewModel.documentPages.count, id: \.self) { index in
                             ScrollView {
-                                Text(documentPages[index])
+                                Text(documentViewModel.documentPages[index])
                                     .padding()
                             }.tag(index)
                         }
@@ -40,7 +37,7 @@ struct ContentView: View {
                 }
             }
             .padding()
-            .navigationBarTitle("Home", displayMode: .inline)
+            .navigationBarTitle(documentViewModel.documentPages.isEmpty ? "" : "\(documentViewModel.currentPage + 1)/\(documentViewModel.documentPages.count)", displayMode: .inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
@@ -55,12 +52,12 @@ struct ContentView: View {
             // Content of the sheet
             SpeechSettingsView()
         }
-        .onChange(of: selectedTab) { oldValue, newValue in
-            SpeechSynthesizer.shared.speakText(documentPages[selectedTab])
+        .onChange(of: documentViewModel.currentPage) { oldValue, newValue in
+            SpeechSynthesizer.shared.speakText(documentViewModel.documentPages[documentViewModel.currentPage])
         }
     }
 }
 
 #Preview {
-    ContentView()
+    ContentView(documentPages: ["This is the first page of the PDF", "This is the second page of the PDF"])
 }

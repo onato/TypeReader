@@ -1,9 +1,9 @@
-import SwiftUI
 import AVFoundation
+import SwiftUI
 
 struct SpeechSettingsView: View {
     @ObservedObject var viewModel = SpeechSettingsViewModel()
-    
+
     var body: some View {
         NavigationView {
             Form {
@@ -12,8 +12,8 @@ struct SpeechSettingsView: View {
                         Text(voice.name + " (\(voice.language))").tag(voice.identifier)
                     }
                 }
-                
-                Slider(value: $viewModel.speechRate, in: AVSpeechUtteranceMinimumSpeechRate...AVSpeechUtteranceMaximumSpeechRate, step: 0.01) {
+
+                Slider(value: $viewModel.speechRate, in: AVSpeechUtteranceMinimumSpeechRate ... AVSpeechUtteranceMaximumSpeechRate, step: 0.01) {
                     Text("Rate")
                 } minimumValueLabel: {
                     Text("Slow")
