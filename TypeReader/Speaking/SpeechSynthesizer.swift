@@ -51,7 +51,9 @@ class SpeechSynthesizer: NSObject, AVSpeechSynthesizerDelegate {
         let voices = AVSpeechSynthesisVoice.speechVoices().filter { $0.language.hasPrefix(Locale.current.language.languageCode?.identifier ?? "en-US") }
         utterance.voice = voices[0]
         utterance.rate = rate
-        speechSynthesizer.speak(utterance)
+        DispatchQueue.global().async {
+            self.speechSynthesizer.speak(utterance)
+        }
         currentUtterance = utterance
         updateNowPlayingInfo(title: "Speech Synthesis")
     }
