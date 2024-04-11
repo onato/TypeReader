@@ -42,6 +42,14 @@ class SpeechSynthesizer: NSObject, AVSpeechSynthesizerDelegate {
             }
             return .commandFailed
         }
+        
+        commandCenter.skipBackwardCommand.addTarget { _ in
+            return .commandFailed
+        }
+        
+        commandCenter.skipForwardCommand.addTarget { _ in
+            return .commandFailed
+        }
     }
 
     func speakText(_ text: String, language: String = "en-UK", rate: Float = 0.5) {
