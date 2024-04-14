@@ -2,9 +2,9 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var documentViewModel = DocumentViewModel()
-    
+
     init(documentPages: [String] = []) {
-        self.documentViewModel.documentPages = documentPages
+        documentViewModel.documentPages = documentPages
     }
 
     var body: some View {
@@ -23,10 +23,16 @@ struct ContentView: View {
                     TabView(selection: $documentViewModel.currentPage) {
                         ForEach(0 ..< documentViewModel.documentPages.count, id: \.self) { index in
                             ScrollView {
-                                Text("This is page \(documentViewModel.currentPage)")
-                                Text(", and this is what is being spoken").foregroundColor(.red).fontWeight(.bold)
-                                Text(documentViewModel.documentPages[index])
-                                    .padding()
+                                ZStack {
+                                    Text(documentViewModel.documentPages[index])
+                                    if documentViewModel.currentPage == index {
+                                        Text(documentViewModel.textSpoken).foregroundColor(.gray)
+                                            + Text(documentViewModel.textBeingSpoken).foregroundColor(.red)
+                                            + Text(documentViewModel.textToSpeak)
+                                            
+                                    }
+                                }
+                                .padding()
                             }.tag(index)
                         }
                     }

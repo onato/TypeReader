@@ -2,10 +2,15 @@ import AVFoundation
 import Foundation
 import MediaPlayer
 
+protocol SpeechSynthesizerDelegate: AnyObject {
+    func speechSynthesizer(_: SpeechSynthesizer, willSpeakRangeOfSpeechString characterRange: NSRange, in: String)
+}
+
 class SpeechSynthesizer: NSObject {
     static let shared = SpeechSynthesizer()
     private let speechSynthesizer = AVSpeechSynthesizer()
     private var currentUtterance: AVSpeechUtterance?
+    public weak var delegate: SpeechSynthesizerDelegate?
 
     override init() {
         super.init()
@@ -53,7 +58,7 @@ class SpeechSynthesizer: NSObject {
     }
 
     func speakText(_ text: String, language _: String = "en-UK", rate: Float = 0.5) {
-        speechSynthesizer.stopSpeaking(at: .word)
+        speechSynthesizer.stopSpeaking(at: .immediate)
         let utterance = AVSpeechUtterance(string: text)
         let lang = AVSpeechSynthesisVoice.currentLanguageCode().components(separatedBy: "-").first ?? "en"
 
@@ -80,22 +85,13 @@ class SpeechSynthesizer: NSObject {
 extension SpeechSynthesizer: AVSpeechSynthesizerDelegate {
     // MARK: - AVSpeechSynthesizerDelegate methods
 
-    func speechSynthesizer(_: AVSpeechSynthesizer, didFinish _: AVSpeechUtterance) {
-        print("Handle completion of speech")
-    }
+    func speechSynthesizer(_: AVSpeechSynthesizer, didFinish _: AVSpeechUtterance) { }
 
-    func speechSynthesizer(_: AVSpeechSynthesizer, didPause _: AVSpeechUtterance) {
-        print("Update UI or state as needed")
-    }
-
-    func speechSynthesizer(_: AVSpeechSynthesizer, didContinue _: AVSpeechUtterance) {
-        print("Update UI or state as needed")
-    }
+    func speechSynthesizer(_: AVSpeechSynthesizer, didPause _: AVSpeechUtterance) { }
+    
+    func speechSynthesizer(_: AVSpeechSynthesizer, didContinue _: AVSpeechUtterance) { }
 
     func speechSynthesizer(_: AVSpeechSynthesizer, willSpeakRangeOfSpeechString characterRange: NSRange, utterance: AVSpeechUtterance) {
-        let startIndex = utterance.speechString.index(utterance.speechString.startIndex, offsetBy: characterRange.location)
-        let endIndex = utterance.speechString.index(startIndex, offsetBy: characterRange.length)
-        let currentSubstring = utterance.speechString[startIndex ..< endIndex]
-        print(currentSubstring)
+        self.delegate?.speechSynthesizer(self, willSpeakRangeOfSpeechString: characterRange, in: utterance.speechString)
     }
 }
