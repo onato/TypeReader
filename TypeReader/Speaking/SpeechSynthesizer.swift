@@ -2,7 +2,7 @@ import AVFoundation
 import Foundation
 import MediaPlayer
 
-class SpeechSynthesizer: NSObject, AVSpeechSynthesizerDelegate {
+class SpeechSynthesizer: NSObject {
     static let shared = SpeechSynthesizer()
     private let speechSynthesizer = AVSpeechSynthesizer()
     private var currentUtterance: AVSpeechUtterance?
@@ -42,21 +42,24 @@ class SpeechSynthesizer: NSObject, AVSpeechSynthesizerDelegate {
             }
             return .commandFailed
         }
-        
+
         commandCenter.skipBackwardCommand.addTarget { _ in
-            return .commandFailed
+            .commandFailed
         }
-        
+
         commandCenter.skipForwardCommand.addTarget { _ in
-            return .commandFailed
+            .commandFailed
         }
     }
 
-    func speakText(_ text: String, language: String = "en-UK", rate: Float = 0.5) {
+    func speakText(_ text: String, language _: String = "en-UK", rate: Float = 0.5) {
         speechSynthesizer.stopSpeaking(at: .word)
         let utterance = AVSpeechUtterance(string: text)
+        let lang = Locale.current.language.languageCode?.identifier ?? "en"
 
-        let voices = AVSpeechSynthesisVoice.speechVoices().filter { $0.language.hasPrefix(Locale.current.language.languageCode?.identifier ?? "en-US") }
+        let voices = AVSpeechSynthesisVoice.speechVoices().filter { ($0.quality == .premium || $0.quality == .enhanced)
+            && $0.language.hasPrefix("en")
+        }
         utterance.voice = voices[0]
         utterance.rate = rate
         DispatchQueue.global().async {
@@ -71,7 +74,9 @@ class SpeechSynthesizer: NSObject, AVSpeechSynthesizerDelegate {
         nowPlayingInfo[MPMediaItemPropertyTitle] = title
         MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
     }
+}
 
+extension SpeechSynthesizer: AVSpeechSynthesizerDelegate {
     // MARK: - AVSpeechSynthesizerDelegate methods
 
     func speechSynthesizer(_: AVSpeechSynthesizer, didFinish _: AVSpeechUtterance) {
@@ -80,10 +85,16 @@ class SpeechSynthesizer: NSObject, AVSpeechSynthesizerDelegate {
 
     func speechSynthesizer(_: AVSpeechSynthesizer, didPause _: AVSpeechUtterance) {
         print("Update UI or state as needed")
-        
     }
 
     func speechSynthesizer(_: AVSpeechSynthesizer, didContinue _: AVSpeechUtterance) {
         print("Update UI or state as needed")
+    }
+
+    func speechSynthesizer(_: AVSpeechSynthesizer, willSpeakRangeOfSpeechString characterRange: NSRange, utterance: AVSpeechUtterance) {
+        let startIndex = utterance.speechString.index(utterance.speechString.startIndex, offsetBy: characterRange.location)
+        let endIndex = utterance.speechString.index(startIndex, offsetBy: characterRange.length)
+        let currentSubstring = utterance.speechString[startIndex ..< endIndex]
+        print(currentSubstring)
     }
 }
