@@ -55,12 +55,13 @@ class SpeechSynthesizer: NSObject {
     func speakText(_ text: String, language _: String = "en-UK", rate: Float = 0.5) {
         speechSynthesizer.stopSpeaking(at: .word)
         let utterance = AVSpeechUtterance(string: text)
-        let lang = Locale.current.language.languageCode?.identifier ?? "en"
+        let lang = AVSpeechSynthesisVoice.currentLanguageCode().components(separatedBy: "-").first ?? "en"
 
         let voices = AVSpeechSynthesisVoice.speechVoices().filter { ($0.quality == .premium || $0.quality == .enhanced)
-            && $0.language.hasPrefix("en")
+            && $0.language.hasPrefix(lang)
         }
-        utterance.voice = voices[0]
+        let defaultVoice = AVSpeechSynthesisVoice.speechVoices().first(where: { $0.language == AVSpeechSynthesisVoice.currentLanguageCode() })
+        utterance.voice = voices.first ?? defaultVoice
         utterance.rate = rate
         DispatchQueue.global().async {
             self.speechSynthesizer.speak(utterance)
