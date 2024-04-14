@@ -17,13 +17,14 @@ struct ContentView: View {
                     .sheet(isPresented: $documentViewModel.showDocumentPicker) {
                         DocumentPicker { url in
                             documentViewModel.documentPages = PDFTextExtractor().extractPagesFromPDF(url: url)
-                            SpeechSynthesizer.shared.speakText(documentViewModel.documentPages[documentViewModel.currentPage])
                         }
                     }
                 } else {
                     TabView(selection: $documentViewModel.currentPage) {
                         ForEach(0 ..< documentViewModel.documentPages.count, id: \.self) { index in
                             ScrollView {
+                                Text("This is page \(documentViewModel.currentPage)")
+                                Text(", and this is what is being spoken").foregroundColor(.red).fontWeight(.bold)
                                 Text(documentViewModel.documentPages[index])
                                     .padding()
                             }.tag(index)
@@ -48,9 +49,6 @@ struct ContentView: View {
         .sheet(isPresented: $documentViewModel.showingSettings) {
             // Content of the sheet
             SpeechSettingsView()
-        }
-        .onChange(of: documentViewModel.currentPage) { oldValue, newValue in
-            SpeechSynthesizer.shared.speakText(documentViewModel.documentPages[documentViewModel.currentPage])
         }
     }
 }
