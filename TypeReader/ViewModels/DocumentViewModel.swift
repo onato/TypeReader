@@ -20,20 +20,27 @@ import SwiftUI
     var textToSpeak: String = ""
 
     private func speakText() {
+        SpeechSynthesizer.shared.delegate = self
+        SpeechSynthesizer.shared.speakText(documentPages[currentPage])
+        
         textSpoken = ""
         textBeingSpoken = ""
         textToSpeak = documentPages[currentPage]
-        SpeechSynthesizer.shared.delegate = self
-        SpeechSynthesizer.shared.speakText(documentPages[currentPage])
     }
 }
 
 extension DocumentViewModel: SpeechSynthesizerDelegate {
+    func speechSynthesizer(_: SpeechSynthesizer, didFinishSpeaking text: String) {
+        if textToSpeak.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            currentPage += 1
+        }
+    }
+    
     func speechSynthesizer(_: SpeechSynthesizer, willSpeakRangeOfSpeechString characterRange: NSRange, in text: String) {
         let startIndex = text.index(text.startIndex, offsetBy: characterRange.location)
         let endIndex = text.index(startIndex, offsetBy: characterRange.length)
         let currentSubstring = text[startIndex ..< endIndex]
-//        print(currentSubstring)
+        
         textSpoken = String(text[..<startIndex])
         textBeingSpoken = String(currentSubstring)
         textToSpeak = String(text[endIndex..<text.endIndex])

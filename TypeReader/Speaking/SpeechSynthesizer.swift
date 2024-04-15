@@ -4,6 +4,7 @@ import MediaPlayer
 
 protocol SpeechSynthesizerDelegate: AnyObject {
     func speechSynthesizer(_: SpeechSynthesizer, willSpeakRangeOfSpeechString characterRange: NSRange, in: String)
+    func speechSynthesizer(_: SpeechSynthesizer, didFinishSpeaking text: String)
 }
 
 class SpeechSynthesizer: NSObject {
@@ -60,14 +61,22 @@ class SpeechSynthesizer: NSObject {
     func speakText(_ text: String, language _: String = "en-UK", rate: Float = 0.5) {
         speechSynthesizer.stopSpeaking(at: .immediate)
         let utterance = AVSpeechUtterance(string: text)
-        let lang = AVSpeechSynthesisVoice.currentLanguageCode().components(separatedBy: "-").first ?? "en"
-
-        let voices = AVSpeechSynthesisVoice.speechVoices().filter { ($0.quality == .premium || $0.quality == .enhanced)
-            && $0.language.hasPrefix(lang)
+        
+        if let identifier = UserDefaults.standard.string(forKey: "selectedVoiceIdentifier"),
+            let voice = AVSpeechSynthesisVoice.speechVoices().first(where: { $0.identifier == identifier }) {
+            utterance.voice = voice
+        } else {
+            let lang = AVSpeechSynthesisVoice.currentLanguageCode().components(separatedBy: "-").first ?? "en"
+            let voices = AVSpeechSynthesisVoice.speechVoices().filter { ($0.quality == .premium || $0.quality == .enhanced)
+                && $0.language.hasPrefix(lang)
+            }
+            let defaultVoice = AVSpeechSynthesisVoice.speechVoices().first(where: { $0.language == AVSpeechSynthesisVoice.currentLanguageCode() })
+            utterance.voice = voices.first ?? defaultVoice
         }
-        let defaultVoice = AVSpeechSynthesisVoice.speechVoices().first(where: { $0.language == AVSpeechSynthesisVoice.currentLanguageCode() })
-        utterance.voice = voices.first ?? defaultVoice
-        utterance.rate = rate
+        utterance.rate = UserDefaults.standard.float(forKey: "speechRate")
+        if utterance.rate == 0 {
+            utterance.rate = AVSpeechUtteranceDefaultSpeechRate
+        }
         DispatchQueue.global().async {
             self.speechSynthesizer.speak(utterance)
         }
@@ -85,7 +94,9 @@ class SpeechSynthesizer: NSObject {
 extension SpeechSynthesizer: AVSpeechSynthesizerDelegate {
     // MARK: - AVSpeechSynthesizerDelegate methods
 
-    func speechSynthesizer(_: AVSpeechSynthesizer, didFinish _: AVSpeechUtterance) { }
+    func speechSynthesizer(_: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
+        delegate?.speechSynthesizer(self, didFinishSpeaking: utterance.speechString)
+    }
 
     func speechSynthesizer(_: AVSpeechSynthesizer, didPause _: AVSpeechUtterance) { }
     
