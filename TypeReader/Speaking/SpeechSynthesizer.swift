@@ -5,6 +5,8 @@ import MediaPlayer
 protocol SpeechSynthesizerDelegate: AnyObject {
     func speechSynthesizer(_: SpeechSynthesizer, willSpeakRangeOfSpeechString characterRange: NSRange, in: String)
     func speechSynthesizer(_: SpeechSynthesizer, didFinishSpeaking text: String)
+    func speechSynthesizerDidSkipForward(_: SpeechSynthesizer)
+    func speechSynthesizerDidSkipBack(_: SpeechSynthesizer)
 }
 
 class SpeechSynthesizer: NSObject {
@@ -49,12 +51,14 @@ class SpeechSynthesizer: NSObject {
             return .commandFailed
         }
 
-        commandCenter.skipBackwardCommand.addTarget { _ in
-            .commandFailed
+        commandCenter.previousTrackCommand.addTarget { _ in
+            self.delegate?.speechSynthesizerDidSkipBack(self)
+            return .success
         }
 
-        commandCenter.skipForwardCommand.addTarget { _ in
-            .commandFailed
+        commandCenter.nextTrackCommand.addTarget { _ in
+            self.delegate?.speechSynthesizerDidSkipForward(self)
+            return .success
         }
     }
 

@@ -30,6 +30,16 @@ import SwiftUI
 }
 
 extension DocumentViewModel: SpeechSynthesizerDelegate {
+    func speechSynthesizerDidSkipForward(_: SpeechSynthesizer) {
+        guard currentPage < documentPages.count - 1 else { return }
+        currentPage += 1
+    }
+    
+    func speechSynthesizerDidSkipBack(_: SpeechSynthesizer) {
+        guard currentPage > 0 else { return }
+        currentPage -= 1
+    }
+    
     func speechSynthesizer(_: SpeechSynthesizer, didFinishSpeaking text: String) {
         if textToSpeak.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             currentPage += 1
