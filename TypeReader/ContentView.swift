@@ -23,13 +23,23 @@ struct ContentView: View {
                     TabView(selection: $documentViewModel.currentPage) {
                         ForEach(0 ..< documentViewModel.documentPages.count, id: \.self) { index in
                             ScrollView {
-                                ZStack {
-                                    Text(documentViewModel.documentPages[index])
-                                    if documentViewModel.currentPage == index {
-                                        Text(documentViewModel.textSpoken).foregroundColor(.gray)
+                                ScrollViewReader { scrollViewProxy in
+                                    ZStack(alignment: .top) {
+                                        Text(documentViewModel.documentPages[index])
+                                        if documentViewModel.currentPage == index {
+                                            Text(documentViewModel.textSpoken)
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                                .padding(.bottom, 200)
+                                                .hidden()
+                                                .id(1)
+                                            Text(documentViewModel.textSpoken).foregroundColor(.gray)
                                             + Text(documentViewModel.textBeingSpoken).foregroundColor(.red)
                                             + Text(documentViewModel.textToSpeak)
                                             
+                                        }
+                                    }
+                                    .onChange(of: documentViewModel.textSpoken) {
+                                        scrollViewProxy.scrollTo(1, anchor: .bottom)
                                     }
                                 }
                                 .padding()
@@ -49,6 +59,9 @@ struct ContentView: View {
                     }) {
                         Image(systemName: "gear")
                     }
+                }
+                ToolbarItem(placement: .topBarLeading) {
+                    
                 }
             }
         }
