@@ -21,7 +21,7 @@ import SwiftUI
 
     private func speakText() {
         SpeechSynthesizer.shared.delegate = self
-        SpeechSynthesizer.shared.speakText(documentPages[currentPage])
+        SpeechSynthesizer.shared.speakText(documentPages[currentPage], title: "TypeReader", subtitle: "Page \(currentPage + 1)")
         
         textSpoken = ""
         textBeingSpoken = ""

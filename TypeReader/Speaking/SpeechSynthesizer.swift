@@ -62,7 +62,7 @@ class SpeechSynthesizer: NSObject {
         }
     }
 
-    func speakText(_ text: String, language _: String = "en-UK", rate: Float = 0.5) {
+    func speakText(_ text: String, title: String, subtitle: String) {
         speechSynthesizer.stopSpeaking(at: .immediate)
         let utterance = AVSpeechUtterance(string: text)
         
@@ -85,12 +85,13 @@ class SpeechSynthesizer: NSObject {
             self.speechSynthesizer.speak(utterance)
         }
         currentUtterance = utterance
-        updateNowPlayingInfo(title: "Speech Synthesis")
+        updateNowPlayingInfo(title: title, subtitle: subtitle)
     }
 
-    private func updateNowPlayingInfo(title: String) {
+    private func updateNowPlayingInfo(title: String, subtitle: String) {
         var nowPlayingInfo = [String: Any]()
         nowPlayingInfo[MPMediaItemPropertyTitle] = title
+        nowPlayingInfo[MPMediaItemPropertyArtist] = subtitle
         MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
     }
 }
