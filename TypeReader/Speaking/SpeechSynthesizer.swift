@@ -91,9 +91,7 @@ class SpeechSynthesizer: NSObject {
         if utterance.rate == 0 {
             utterance.rate = AVSpeechUtteranceDefaultSpeechRate
         }
-        DispatchQueue.global().async {
-            self.speechSynthesizer.speak(utterance)
-        }
+        speechSynthesizer.speak(utterance)
         currentUtterance = utterance
         updateNowPlayingInfo(title: title, subtitle: subtitle)
     }
