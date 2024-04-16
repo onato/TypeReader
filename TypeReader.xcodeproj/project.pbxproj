@@ -22,6 +22,7 @@
 		A78F72AC2BC4BC8D000919DE /* SpeechSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78F72AB2BC4BC8D000919DE /* SpeechSettingsView.swift */; };
 		A792D6992BCE2AED00D3ABDB /* SpeechSynthesizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A792D6982BCE2AED00D3ABDB /* SpeechSynthesizerTests.swift */; };
 		A792D69C2BCE2B7800D3ABDB /* UserSettingsMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A792D69B2BCE2B7800D3ABDB /* UserSettingsMock.swift */; };
+		A792D69E2BCE30FE00D3ABDB /* SpeechSettingsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A792D69D2BCE30FE00D3ABDB /* SpeechSettingsViewModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		A78F72AB2BC4BC8D000919DE /* SpeechSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechSettingsView.swift; sourceTree = "<group>"; };
 		A792D6982BCE2AED00D3ABDB /* SpeechSynthesizerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechSynthesizerTests.swift; sourceTree = "<group>"; };
 		A792D69B2BCE2B7800D3ABDB /* UserSettingsMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsMock.swift; sourceTree = "<group>"; };
+		A792D69D2BCE30FE00D3ABDB /* SpeechSettingsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechSettingsViewModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +125,7 @@
 				A78F72A02BC39468000919DE /* data */,
 				A78F729B2BC393B7000919DE /* PDFTextExtractorTests.swift */,
 				A792D6982BCE2AED00D3ABDB /* SpeechSynthesizerTests.swift */,
+				A792D69D2BCE30FE00D3ABDB /* SpeechSettingsViewModelTests.swift */,
 			);
 			path = TypeReaderTests;
 			sourceTree = "<group>";
@@ -291,6 +294,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A792D6992BCE2AED00D3ABDB /* SpeechSynthesizerTests.swift in Sources */,
+				A792D69E2BCE30FE00D3ABDB /* SpeechSettingsViewModelTests.swift in Sources */,
 				A792D69C2BCE2B7800D3ABDB /* UserSettingsMock.swift in Sources */,
 				A78F729C2BC393B7000919DE /* PDFTextExtractorTests.swift in Sources */,
 			);

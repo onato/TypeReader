@@ -15,9 +15,7 @@ struct DocumentPicker: UIViewControllerRepresentable {
         return picker
     }
 
-    func updateUIViewController(_ uiViewController: UIDocumentPickerViewController, context: Context) {
-        // Update the controller if needed.
-    }
+    func updateUIViewController(_ uiViewController: UIDocumentPickerViewController, context: Context) { }
 
     func makeCoordinator() -> Coordinator {
         Coordinator(self)

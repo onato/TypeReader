@@ -12,6 +12,8 @@ protocol SpeechSynthesizerDelegate: AnyObject {
 protocol UserSettings {
     func string(forKey defaultName: String) -> String?
     func float(forKey defaultName: String) -> Float
+    func set(_ value: Any?, forKey defaultName: String)
+    func set(_ value: Float, forKey defaultName: String)
 }
 extension UserDefaults: UserSettings { }
 
@@ -119,4 +121,3 @@ extension SpeechSynthesizer: AVSpeechSynthesizerDelegate {
         self.delegate?.speechSynthesizer(self, willSpeakRangeOfSpeechString: characterRange, in: utterance.speechString)
     }
 }
-
