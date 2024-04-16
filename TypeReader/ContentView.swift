@@ -16,6 +16,7 @@ struct ContentView: View {
                     }
                     .sheet(isPresented: $documentViewModel.showDocumentPicker) {
                         DocumentPicker { url in
+                            documentViewModel.fileName = url.deletingPathExtension().lastPathComponent
                             documentViewModel.documentPages = PDFTextExtractor().extractPagesFromPDF(url: url)
                         }
                     }
@@ -33,17 +34,27 @@ struct ContentView: View {
                                                 .hidden()
                                                 .id(1)
                                             Text(documentViewModel.textSpoken).foregroundColor(.gray)
-                                            + Text(documentViewModel.textBeingSpoken).foregroundColor(.red)
-                                            + Text(documentViewModel.textToSpeak)
-                                            
+                                                + Text(documentViewModel.textBeingSpoken).foregroundColor(.red)
+                                                + Text(documentViewModel.textToSpeak)
                                         }
                                     }
                                     .onChange(of: documentViewModel.textSpoken) {
-                                        scrollViewProxy.scrollTo(1, anchor: .bottom)
+                                        if abs(documentViewModel.dateLastTouched.timeIntervalSinceNow) > 5 {
+                                            withAnimation {
+                                                scrollViewProxy.scrollTo(1, anchor: .bottom)
+                                            }
+                                        }
                                     }
                                 }
                                 .padding()
-                            }.tag(index)
+                            }
+                            .tag(index)
+                            .simultaneousGesture(
+                                DragGesture()
+                                    .onChanged { _ in
+                                        documentViewModel.didTouchScreen()
+                                    }
+                            )
                         }
                     }
                     .tabViewStyle(PageTabViewStyle())
@@ -51,7 +62,7 @@ struct ContentView: View {
                 }
             }
             .padding()
-            .navigationBarTitle(documentViewModel.documentPages.isEmpty ? "" : "\(documentViewModel.currentPage + 1)/\(documentViewModel.documentPages.count)", displayMode: .inline)
+            .navigationBarTitle(documentViewModel.subtitle, displayMode: .inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
@@ -60,9 +71,7 @@ struct ContentView: View {
                         Image(systemName: "gear")
                     }
                 }
-                ToolbarItem(placement: .topBarLeading) {
-                    
-                }
+                ToolbarItem(placement: .topBarLeading) {}
             }
         }
         .sheet(isPresented: $documentViewModel.showingSettings) {

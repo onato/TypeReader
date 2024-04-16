@@ -9,15 +9,25 @@ protocol SpeechSynthesizerDelegate: AnyObject {
     func speechSynthesizerDidSkipBack(_: SpeechSynthesizer)
 }
 
+protocol UserSettings {
+    func string(forKey defaultName: String) -> String?
+    func float(forKey defaultName: String) -> Float
+}
+extension UserDefaults: UserSettings { }
+
 class SpeechSynthesizer: NSObject {
     static let shared = SpeechSynthesizer()
     private let speechSynthesizer = AVSpeechSynthesizer()
-    private var currentUtterance: AVSpeechUtterance?
+    internal var currentUtterance: AVSpeechUtterance?
     public weak var delegate: SpeechSynthesizerDelegate?
+    private let userSettings: UserSettings
 
-    override init() {
+    init(userDefaults: UserSettings = UserDefaults.standard) {
+        userSettings = userDefaults
+        
         super.init()
         speechSynthesizer.delegate = self
+
         setupAudioSession()
         configureRemoteTransportControls()
     }
@@ -66,18 +76,18 @@ class SpeechSynthesizer: NSObject {
         speechSynthesizer.stopSpeaking(at: .immediate)
         let utterance = AVSpeechUtterance(string: text)
         
-        if let identifier = UserDefaults.standard.string(forKey: "selectedVoiceIdentifier"),
+        if let identifier = userSettings.string(forKey: "selectedVoiceIdentifier"),
             let voice = AVSpeechSynthesisVoice.speechVoices().first(where: { $0.identifier == identifier }) {
             utterance.voice = voice
         } else {
             let lang = AVSpeechSynthesisVoice.currentLanguageCode().components(separatedBy: "-").first ?? "en"
-            let voices = AVSpeechSynthesisVoice.speechVoices().filter { ($0.quality == .premium || $0.quality == .enhanced)
-                && $0.language.hasPrefix(lang)
+            let voices = AVSpeechSynthesisVoice.speechVoices().filter {
+                $0.language == lang
             }
             let defaultVoice = AVSpeechSynthesisVoice.speechVoices().first(where: { $0.language == AVSpeechSynthesisVoice.currentLanguageCode() })
             utterance.voice = voices.first ?? defaultVoice
         }
-        utterance.rate = UserDefaults.standard.float(forKey: "speechRate")
+        utterance.rate = userSettings.float(forKey: "speechRate")
         if utterance.rate == 0 {
             utterance.rate = AVSpeechUtteranceDefaultSpeechRate
         }
@@ -111,3 +121,4 @@ extension SpeechSynthesizer: AVSpeechSynthesizerDelegate {
         self.delegate?.speechSynthesizer(self, willSpeakRangeOfSpeechString: characterRange, in: utterance.speechString)
     }
 }
+

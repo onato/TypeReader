@@ -18,14 +18,22 @@ import SwiftUI
     var textSpoken: String = ""
     var textBeingSpoken: String = ""
     var textToSpeak: String = ""
+    var fileName: String = ""
+    var subtitle: String {
+        documentPages.isEmpty ? "" : "\(currentPage + 1)/\(documentPages.count)"
+    }
+    var dateLastTouched = Date()
 
     private func speakText() {
         SpeechSynthesizer.shared.delegate = self
-        SpeechSynthesizer.shared.speakText(documentPages[currentPage], title: "TypeReader", subtitle: "Page \(currentPage + 1)")
+        SpeechSynthesizer.shared.speakText(documentPages[currentPage], title: fileName, subtitle: subtitle)
         
         textSpoken = ""
         textBeingSpoken = ""
         textToSpeak = documentPages[currentPage]
+    }
+    public func didTouchScreen() {
+        dateLastTouched = Date()
     }
 }
 
