@@ -13,6 +13,15 @@ import SwiftUI
             speakText()
         }
     }
+    var isTracking = false {
+        didSet {
+            if isTracking {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.isTracking = false
+                }
+            }
+        }
+    }
     var showingSettings = false
     var showDocumentPicker = false
     var currentSentence: String = ""

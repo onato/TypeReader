@@ -8,6 +8,7 @@ public struct PDFViewer: UIViewRepresentable {
     @Binding var highlightSentence: String
     @Binding var highlightWord: String
     @Binding var currentPage: Int
+    @Binding var isTracking: Bool
 
     public func makeUIView(context: Context) -> PDFView {
         let pdfView = PDFView()
@@ -26,6 +27,11 @@ public struct PDFViewer: UIViewRepresentable {
             let highlighter = PDFHighlighter(document: document, currentPageNumber: currentPage, spokenText: spokenText, highlightWord: highlightWord)
             highlighter.clearHighlights()
             highlighter.highlightTextInDocument(sentence: highlightSentence, word: highlightWord)
+            
+            if isTracking, let page = document.page(at: currentPage) {
+                let destination = PDFDestination(page: page, at: CGPoint(x: 0, y: page.bounds(for: .mediaBox).height))
+                uiView.go(to: destination) // Scroll to the specific point on the page
+            }
         }
     }
 }

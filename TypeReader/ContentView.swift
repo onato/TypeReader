@@ -34,7 +34,8 @@ struct ContentView: View {
                         spokenText: $documentViewModel.textSpoken,
                         highlightSentence: $documentViewModel.currentSentence,
                         highlightWord: $documentViewModel.textBeingSpoken,
-                        currentPage: $documentViewModel.currentPage
+                        currentPage: $documentViewModel.currentPage,
+                        isTracking: $documentViewModel.isTracking
                     )
                     .edgesIgnoringSafeArea(.all)
                 }
@@ -49,20 +50,18 @@ struct ContentView: View {
                         Image(systemName: "gear")
                     }
                 }
-                ToolbarItem(placement: .topBarLeading) {}
+                ToolbarItem(placement: .topBarLeading) {
+                    Button(action: {
+                        documentViewModel.isTracking = true
+                    }) {
+                        Image(systemName: "scope")
+                    }
+                }
             }
         }
         .sheet(isPresented: $documentViewModel.showingSettings) {
             // Content of the sheet
             SpeechSettingsView()
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .PDFViewPageChanged)) { notification in
-            guard let pdfView = notification.object as? PDFView else {
-                return
-            }
-            if let currentPage = pdfView.currentPage, let pageIndex = pdfView.document?.index(for: currentPage) {
-                documentViewModel.currentPage = pageIndex
-            }
         }
     }
 }
