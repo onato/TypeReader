@@ -36,6 +36,13 @@ final class SentenceFinderTests: XCTestCase {
         let result = fullText.sentence(containing: rangeOfWord)
         expect(result) == "We will end with one last example"
     }
+    
+    func test_SentenceFinder_whenInParagraph_shouldNotGoOutside() throws {
+        let fullText = "Paragraph one.\n\nThis is Paragraph two.\n\nParagraph three."
+        let rangeOfWord = fullText.nsRange(of: "two")
+        let result = fullText.sentence(containing: rangeOfWord)
+        expect(result) == "This is Paragraph two."
+    }
 }
 
 extension String {

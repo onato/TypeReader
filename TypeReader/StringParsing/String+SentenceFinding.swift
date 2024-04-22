@@ -4,7 +4,7 @@ extension String {
     func sentence(containing range: NSRange) -> String {
         var currentSentence = ""
         if let rangeOfCurrentSentence = rangeOfCurrentSentence(from: range) {
-            currentSentence = String(self[rangeOfCurrentSentence])
+            currentSentence = String(self[rangeOfCurrentSentence]).trimmingCharacters(in: .whitespacesAndNewlines)
         }
         return currentSentence
     }
@@ -18,14 +18,18 @@ extension String {
         var rangeStart = self.range(of: ".", options: .backwards, range: startIndex ..< start)?.upperBound ?? startIndex
         var rangeEnd = rangeOfSentenceEnd ?? self.range(of: ".", options: [], range: end ..< endIndex)?.upperBound ?? endIndex
         
-        if rangeEnd < endIndex, let spaceAfterDot = self.range(of: " ", options: [], range: rangeEnd ..< endIndex) {
-            rangeEnd = spaceAfterDot.lowerBound
-        }
-        
-        if rangeStart > startIndex, rangeStart < endIndex, let spaceAfterDot = self.range(of: " ", options: [], range: rangeStart ..< endIndex) {
-            rangeStart = spaceAfterDot.upperBound
-        }
+        movePastPunctuation(&rangeEnd, &rangeStart)
 
         return rangeStart ..< rangeEnd
+    }
+    
+    private func movePastPunctuation(_ rangeEnd: inout String.Index, _ rangeStart: inout String.Index) {
+        while rangeEnd < endIndex, let scalar = self[rangeEnd].unicodeScalars.first, !CharacterSet.whitespacesAndNewlines.contains(scalar)  {
+            rangeEnd = index(rangeEnd, offsetBy: 1)
+        }
+        
+        while rangeStart > startIndex, rangeStart < endIndex, let scalar = self[rangeStart].unicodeScalars.first, !CharacterSet.whitespacesAndNewlines.contains(scalar) {
+            rangeStart = index(rangeStart, offsetBy: 1)
+        }
     }
 }
