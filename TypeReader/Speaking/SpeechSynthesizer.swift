@@ -3,7 +3,7 @@ import Foundation
 import MediaPlayer
 
 protocol SpeechSynthesizerDelegate: AnyObject {
-    func speechSynthesizer(_: SpeechSynthesizer, willSpeakRangeOfSpeechString characterRange: NSRange, in: String)
+    func speechSynthesizer(_: SpeechSynthesizer, willSpeakRangeOfSpeechString characterRange: NSRange, sentence: String, in: String)
     func speechSynthesizer(_: SpeechSynthesizer, didFinishSpeaking text: String)
     func speechSynthesizerDidSkipForward(_: SpeechSynthesizer)
     func speechSynthesizerDidSkipBack(_: SpeechSynthesizer)
@@ -15,18 +15,19 @@ protocol UserSettings {
     func set(_ value: Any?, forKey defaultName: String)
     func set(_ value: Float, forKey defaultName: String)
 }
-extension UserDefaults: UserSettings { }
+
+extension UserDefaults: UserSettings {}
 
 class SpeechSynthesizer: NSObject {
     static let shared = SpeechSynthesizer()
     private let speechSynthesizer = AVSpeechSynthesizer()
-    internal var currentUtterance: AVSpeechUtterance?
+    var currentUtterance: AVSpeechUtterance?
     public weak var delegate: SpeechSynthesizerDelegate?
     private let userSettings: UserSettings
 
     init(userDefaults: UserSettings = UserDefaults.standard) {
         userSettings = userDefaults
-        
+
         super.init()
         speechSynthesizer.delegate = self
 
@@ -77,9 +78,10 @@ class SpeechSynthesizer: NSObject {
     func speakText(_ text: String, title: String, subtitle: String) {
         speechSynthesizer.stopSpeaking(at: .immediate)
         let utterance = AVSpeechUtterance(string: text)
-        
+
         if let identifier = userSettings.string(forKey: "selectedVoiceIdentifier"),
-            let voice = AVSpeechSynthesisVoice.speechVoices().first(where: { $0.identifier == identifier }) {
+           let voice = AVSpeechSynthesisVoice.speechVoices().first(where: { $0.identifier == identifier })
+        {
             utterance.voice = voice
         } else {
             let lang = AVSpeechSynthesisVoice.currentLanguageCode().components(separatedBy: "-").first ?? "en"
@@ -113,11 +115,33 @@ extension SpeechSynthesizer: AVSpeechSynthesizerDelegate {
         delegate?.speechSynthesizer(self, didFinishSpeaking: utterance.speechString)
     }
 
-    func speechSynthesizer(_: AVSpeechSynthesizer, didPause _: AVSpeechUtterance) { }
-    
-    func speechSynthesizer(_: AVSpeechSynthesizer, didContinue _: AVSpeechUtterance) { }
+    func speechSynthesizer(_: AVSpeechSynthesizer, didPause _: AVSpeechUtterance) {}
+
+    func speechSynthesizer(_: AVSpeechSynthesizer, didContinue _: AVSpeechUtterance) {}
 
     func speechSynthesizer(_: AVSpeechSynthesizer, willSpeakRangeOfSpeechString characterRange: NSRange, utterance: AVSpeechUtterance) {
-        self.delegate?.speechSynthesizer(self, willSpeakRangeOfSpeechString: characterRange, in: utterance.speechString)
+        var currentSentence = ""
+        let fullText = utterance.speechString
+        if let rangeOfCurrentSentence = fullText.rangeOfCurrentSentence(from: characterRange) {
+            currentSentence = String(fullText[rangeOfCurrentSentence])
+        }
+        delegate?.speechSynthesizer(self, willSpeakRangeOfSpeechString: characterRange, sentence: currentSentence, in: utterance.speechString)
+    }
+}
+
+extension String {
+    func rangeOfCurrentSentence(from range: NSRange) -> Range<String.Index>? {
+        let start = index(startIndex, offsetBy: range.location)
+        var end = start
+
+        if range.location + range.length < count {
+            end = index(start, offsetBy: range.length)
+        } else {
+            end = index(endIndex, offsetBy: -1)
+        }
+
+        let rangeStart = self.range(of: ".", options: .backwards, range: startIndex ..< start)?.upperBound ?? startIndex
+        let rangeEnd = self.range(of: ".", options: [], range: end ..< endIndex)?.lowerBound ?? endIndex
+        return rangeStart ..< rangeEnd
     }
 }

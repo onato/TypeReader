@@ -23,6 +23,9 @@
 		A792D6992BCE2AED00D3ABDB /* SpeechSynthesizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A792D6982BCE2AED00D3ABDB /* SpeechSynthesizerTests.swift */; };
 		A792D69C2BCE2B7800D3ABDB /* UserSettingsMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A792D69B2BCE2B7800D3ABDB /* UserSettingsMock.swift */; };
 		A792D69E2BCE30FE00D3ABDB /* SpeechSettingsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A792D69D2BCE30FE00D3ABDB /* SpeechSettingsViewModelTests.swift */; };
+		A792D6A02BCF5C8E00D3ABDB /* PDFViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A792D69F2BCF5C8E00D3ABDB /* PDFViewer.swift */; };
+		A792D6DB2BD5C20200D3ABDB /* PDFViewerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A792D6DA2BD5C20200D3ABDB /* PDFViewerTests.swift */; };
+		A7DF8BD92BD5CECA0061A2B5 /* PDFHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DF8BD82BD5CECA0061A2B5 /* PDFHighlighter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +57,9 @@
 		A792D6982BCE2AED00D3ABDB /* SpeechSynthesizerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechSynthesizerTests.swift; sourceTree = "<group>"; };
 		A792D69B2BCE2B7800D3ABDB /* UserSettingsMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsMock.swift; sourceTree = "<group>"; };
 		A792D69D2BCE30FE00D3ABDB /* SpeechSettingsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechSettingsViewModelTests.swift; sourceTree = "<group>"; };
+		A792D69F2BCF5C8E00D3ABDB /* PDFViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewer.swift; sourceTree = "<group>"; };
+		A792D6DA2BD5C20200D3ABDB /* PDFViewerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewerTests.swift; sourceTree = "<group>"; };
+		A7DF8BD82BD5CECA0061A2B5 /* PDFHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFHighlighter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +102,7 @@
 		A78F726C2BC3827C000919DE /* TypeReader */ = {
 			isa = PBXGroup;
 			children = (
+				A7DF8BD72BD5CEAD0061A2B5 /* PDF */,
 				A78F72AA2BC4BC7F000919DE /* Views */,
 				A78F72A72BC4BC4D000919DE /* ViewModels */,
 				A78F72A62BC4AFBD000919DE /* Info.plist */,
@@ -126,6 +133,7 @@
 				A78F729B2BC393B7000919DE /* PDFTextExtractorTests.swift */,
 				A792D6982BCE2AED00D3ABDB /* SpeechSynthesizerTests.swift */,
 				A792D69D2BCE30FE00D3ABDB /* SpeechSettingsViewModelTests.swift */,
+				A792D6DA2BD5C20200D3ABDB /* PDFViewerTests.swift */,
 			);
 			path = TypeReaderTests;
 			sourceTree = "<group>";
@@ -159,6 +167,7 @@
 			isa = PBXGroup;
 			children = (
 				A78F72AB2BC4BC8D000919DE /* SpeechSettingsView.swift */,
+				A792D69F2BCF5C8E00D3ABDB /* PDFViewer.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -169,6 +178,14 @@
 				A792D69B2BCE2B7800D3ABDB /* UserSettingsMock.swift */,
 			);
 			path = Mocks;
+			sourceTree = "<group>";
+		};
+		A7DF8BD72BD5CEAD0061A2B5 /* PDF */ = {
+			isa = PBXGroup;
+			children = (
+				A7DF8BD82BD5CECA0061A2B5 /* PDFHighlighter.swift */,
+			);
+			path = PDF;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -278,6 +295,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7DF8BD92BD5CECA0061A2B5 /* PDFHighlighter.swift in Sources */,
+				A792D6A02BCF5C8E00D3ABDB /* PDFViewer.swift in Sources */,
 				A78F72A52BC39B12000919DE /* SpeechSynthesizer.swift in Sources */,
 				A78F72A92BC4BC65000919DE /* SpeechSettingsViewModel.swift in Sources */,
 				A78F729A2BC39267000919DE /* PDFTextExtractor.swift in Sources */,
@@ -294,6 +313,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A792D6992BCE2AED00D3ABDB /* SpeechSynthesizerTests.swift in Sources */,
+				A792D6DB2BD5C20200D3ABDB /* PDFViewerTests.swift in Sources */,
 				A792D69E2BCE30FE00D3ABDB /* SpeechSettingsViewModelTests.swift in Sources */,
 				A792D69C2BCE2B7800D3ABDB /* UserSettingsMock.swift in Sources */,
 				A78F729C2BC393B7000919DE /* PDFTextExtractorTests.swift in Sources */,

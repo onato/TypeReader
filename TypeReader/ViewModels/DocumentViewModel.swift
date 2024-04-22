@@ -15,10 +15,12 @@ import SwiftUI
     }
     var showingSettings = false
     var showDocumentPicker = false
+    var currentSentence: String = ""
     var textSpoken: String = ""
     var textBeingSpoken: String = ""
     var textToSpeak: String = ""
     var fileName: String = ""
+    var fileURL: URL!
     var subtitle: String {
         documentPages.isEmpty ? "" : "\(currentPage + 1)/\(documentPages.count)"
     }
@@ -54,11 +56,12 @@ extension DocumentViewModel: SpeechSynthesizerDelegate {
         }
     }
     
-    func speechSynthesizer(_: SpeechSynthesizer, willSpeakRangeOfSpeechString characterRange: NSRange, in text: String) {
+    func speechSynthesizer(_: SpeechSynthesizer, willSpeakRangeOfSpeechString characterRange: NSRange, sentence: String, in text: String) {
         let startIndex = text.index(text.startIndex, offsetBy: characterRange.location)
         let endIndex = text.index(startIndex, offsetBy: characterRange.length)
         let currentSubstring = text[startIndex ..< endIndex]
         
+        currentSentence = sentence
         textSpoken = String(text[..<startIndex])
         textBeingSpoken = String(currentSubstring)
         textToSpeak = String(text[endIndex..<text.endIndex])

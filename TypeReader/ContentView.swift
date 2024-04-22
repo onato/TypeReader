@@ -1,3 +1,4 @@
+import PDFKit
 import SwiftUI
 
 struct ContentView: View {
@@ -11,54 +12,31 @@ struct ContentView: View {
         NavigationView {
             VStack {
                 if documentViewModel.documentPages.isEmpty {
-                    Button("Select PDF") {
+                    Button {
                         documentViewModel.showDocumentPicker = true
+                    } label: {
+                        Image(systemName: "plus.circle")
+                            .imageScale(.large)
+                        Text("Open PDF")
                     }
+                    .buttonStyle(.borderedProminent)
+                    .controlSize(.large)
                     .sheet(isPresented: $documentViewModel.showDocumentPicker) {
                         DocumentPicker { url in
+                            documentViewModel.fileURL = url
                             documentViewModel.fileName = url.deletingPathExtension().lastPathComponent
                             documentViewModel.documentPages = PDFTextExtractor().extractPagesFromPDF(url: url)
                         }
                     }
                 } else {
-                    TabView(selection: $documentViewModel.currentPage) {
-                        ForEach(0 ..< documentViewModel.documentPages.count, id: \.self) { index in
-                            ScrollView {
-                                ScrollViewReader { scrollViewProxy in
-                                    ZStack(alignment: .top) {
-                                        Text(documentViewModel.documentPages[index])
-                                        if documentViewModel.currentPage == index {
-                                            Text(documentViewModel.textSpoken)
-                                                .frame(maxWidth: .infinity, alignment: .leading)
-                                                .padding(.bottom, 200)
-                                                .hidden()
-                                                .id(1)
-                                            Text(documentViewModel.textSpoken).foregroundColor(.gray)
-                                                + Text(documentViewModel.textBeingSpoken).foregroundColor(.red)
-                                                + Text(documentViewModel.textToSpeak)
-                                        }
-                                    }
-                                    .onChange(of: documentViewModel.textSpoken) {
-                                        if abs(documentViewModel.dateLastTouched.timeIntervalSinceNow) > 5 {
-                                            withAnimation {
-                                                scrollViewProxy.scrollTo(1, anchor: .bottom)
-                                            }
-                                        }
-                                    }
-                                }
-                                .padding()
-                            }
-                            .tag(index)
-                            .simultaneousGesture(
-                                DragGesture()
-                                    .onChanged { _ in
-                                        documentViewModel.didTouchScreen()
-                                    }
-                            )
-                        }
-                    }
-                    .tabViewStyle(PageTabViewStyle())
-                    .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+                    PDFViewer(
+                        url: documentViewModel.fileURL,
+                        spokenText: $documentViewModel.textSpoken,
+                        highlightSentence: $documentViewModel.currentSentence,
+                        highlightWord: $documentViewModel.textBeingSpoken,
+                        currentPage: $documentViewModel.currentPage
+                    )
+                    .edgesIgnoringSafeArea(.all)
                 }
             }
             .padding()
@@ -77,6 +55,14 @@ struct ContentView: View {
         .sheet(isPresented: $documentViewModel.showingSettings) {
             // Content of the sheet
             SpeechSettingsView()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .PDFViewPageChanged)) { notification in
+            guard let pdfView = notification.object as? PDFView else {
+                return
+            }
+            if let currentPage = pdfView.currentPage, let pageIndex = pdfView.document?.index(for: currentPage) {
+                documentViewModel.currentPage = pageIndex
+            }
         }
     }
 }
