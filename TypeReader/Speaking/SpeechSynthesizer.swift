@@ -120,28 +120,7 @@ extension SpeechSynthesizer: AVSpeechSynthesizerDelegate {
     func speechSynthesizer(_: AVSpeechSynthesizer, didContinue _: AVSpeechUtterance) {}
 
     func speechSynthesizer(_: AVSpeechSynthesizer, willSpeakRangeOfSpeechString characterRange: NSRange, utterance: AVSpeechUtterance) {
-        var currentSentence = ""
-        let fullText = utterance.speechString
-        if let rangeOfCurrentSentence = fullText.rangeOfCurrentSentence(from: characterRange) {
-            currentSentence = String(fullText[rangeOfCurrentSentence])
-        }
+        let currentSentence = utterance.speechString.sentence(containing: characterRange)
         delegate?.speechSynthesizer(self, willSpeakRangeOfSpeechString: characterRange, sentence: currentSentence, in: utterance.speechString)
-    }
-}
-
-extension String {
-    func rangeOfCurrentSentence(from range: NSRange) -> Range<String.Index>? {
-        let start = index(startIndex, offsetBy: range.location)
-        var end = start
-
-        if range.location + range.length < count {
-            end = index(start, offsetBy: range.length)
-        } else {
-            end = index(endIndex, offsetBy: -1)
-        }
-
-        let rangeStart = self.range(of: ".", options: .backwards, range: startIndex ..< start)?.upperBound ?? startIndex
-        let rangeEnd = self.range(of: ".", options: [], range: end ..< endIndex)?.lowerBound ?? endIndex
-        return rangeStart ..< rangeEnd
     }
 }
