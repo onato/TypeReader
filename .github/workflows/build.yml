@@ -19,9 +19,6 @@ jobs:
 
       - name: Build and Test
         run: |
-          # Set the Xcode version (optional, but recommended for consistency)
-          sudo xcode-select --switch /Applications/Xcode_15.3.app
-
           # Download the dependencies
           xcodebuild -resolvePackageDependencies -project TypeReader.xcodeproj
 
