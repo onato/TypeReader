@@ -12,18 +12,23 @@ struct ContentView: View {
         NavigationView {
             VStack {
                 if documentViewModel.documentPages.isEmpty {
-                    Button {
-                        documentViewModel.showDocumentPicker = true
-                    } label: {
-                        Image(systemName: "plus.circle")
-                            .imageScale(.large)
-                        Text("Open PDF")
-                    }
-                    .buttonStyle(.borderedProminent)
-                    .controlSize(.large)
-                    .sheet(isPresented: $documentViewModel.showDocumentPicker) {
-                        DocumentPicker { url in
-                            documentViewModel.fileURL = url
+                    VStack {
+                        if !documentViewModel.errorMessage.isEmpty {
+                            ErrorMessage(errorDescription: documentViewModel.errorMessage)
+                        }
+                        Button {
+                            documentViewModel.showDocumentPicker = true
+                        } label: {
+                            Image(systemName: "plus.circle")
+                                .imageScale(.large)
+                            Text("Open PDF")
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .controlSize(.large)
+                        .sheet(isPresented: $documentViewModel.showDocumentPicker) {
+                            DocumentPicker { url in
+                                documentViewModel.fileURL = url
+                            }
                         }
                     }
                 } else {

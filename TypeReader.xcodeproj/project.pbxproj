@@ -28,6 +28,7 @@
 		A7DF8BD92BD5CECA0061A2B5 /* PDFHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DF8BD82BD5CECA0061A2B5 /* PDFHighlighter.swift */; };
 		A7F073DA2BD5E7A2002E06B3 /* SentenceFindingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F073D92BD5E7A2002E06B3 /* SentenceFindingTests.swift */; };
 		A7F073DD2BD5FA63002E06B3 /* String+SentenceFinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F073DC2BD5FA63002E06B3 /* String+SentenceFinding.swift */; };
+		A7F073DF2BD74F52002E06B3 /* ErrorMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F073DE2BD74F52002E06B3 /* ErrorMessage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		A7DF8BD82BD5CECA0061A2B5 /* PDFHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFHighlighter.swift; sourceTree = "<group>"; };
 		A7F073D92BD5E7A2002E06B3 /* SentenceFindingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentenceFindingTests.swift; sourceTree = "<group>"; };
 		A7F073DC2BD5FA63002E06B3 /* String+SentenceFinding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+SentenceFinding.swift"; sourceTree = "<group>"; };
+		A7F073DE2BD74F52002E06B3 /* ErrorMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,7 +115,6 @@
 				A78F72A62BC4AFBD000919DE /* Info.plist */,
 				A78F72A32BC39B06000919DE /* Speaking */,
 				A78F726D2BC3827C000919DE /* TypeReaderApp.swift */,
-				A78F726F2BC3827C000919DE /* ContentView.swift */,
 				A78F72712BC3827F000919DE /* Assets.xcassets */,
 				A78F72732BC3827F000919DE /* Preview Content */,
 				A78F72972BC3840E000919DE /* DocumentPicker.swift */,
@@ -172,8 +173,10 @@
 		A78F72AA2BC4BC7F000919DE /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				A78F726F2BC3827C000919DE /* ContentView.swift */,
 				A78F72AB2BC4BC8D000919DE /* SpeechSettingsView.swift */,
 				A792D69F2BCF5C8E00D3ABDB /* PDFViewer.swift */,
+				A7F073DE2BD74F52002E06B3 /* ErrorMessage.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -313,6 +316,7 @@
 				A792D6A02BCF5C8E00D3ABDB /* PDFViewer.swift in Sources */,
 				A78F72A52BC39B12000919DE /* SpeechSynthesizer.swift in Sources */,
 				A78F72A92BC4BC65000919DE /* SpeechSettingsViewModel.swift in Sources */,
+				A7F073DF2BD74F52002E06B3 /* ErrorMessage.swift in Sources */,
 				A78F729A2BC39267000919DE /* PDFTextExtractor.swift in Sources */,
 				A78F72982BC3840E000919DE /* DocumentPicker.swift in Sources */,
 				A78F72702BC3827C000919DE /* ContentView.swift in Sources */,

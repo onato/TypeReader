@@ -24,6 +24,7 @@ import SwiftUI
     }
     var showingSettings = false
     var showDocumentPicker = false
+    var errorMessage = ""
     var currentSentence: String = ""
     var textSpoken: String = ""
     var textBeingSpoken: String = ""
@@ -33,6 +34,13 @@ import SwiftUI
         didSet {
             fileName = fileURL.deletingPathExtension().lastPathComponent
             documentPages = PDFTextExtractor().extractPagesFromPDF(url: fileURL)
+            if documentPages.isEmpty {
+                errorMessage = "We were not able to extract any pages from your file."
+                let ext = fileURL.pathExtension
+                if !ext.isEmpty, ext.lowercased() != "pdf" {
+                    errorMessage += "\n\nYou selected a file of type \(ext.uppercased()). We currently only support PDF."
+                }
+            }
         }
     }
     var subtitle: String {
