@@ -19,7 +19,7 @@ jobs:
 
       - name: Build and Test
         run: |
-          ls /Applications/Xcode*
+          ls /Applications | grep Xcode
           sudo xcode-select --switch /Applications/Xcode_15.3.app/Contents/Developer
             
           # Download the dependencies
