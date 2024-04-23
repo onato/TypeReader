@@ -7,6 +7,8 @@ protocol SpeechSynthesizerDelegate: AnyObject {
     func speechSynthesizer(_: SpeechSynthesizer, didFinishSpeaking text: String)
     func speechSynthesizerDidSkipForward(_: SpeechSynthesizer)
     func speechSynthesizerDidSkipBack(_: SpeechSynthesizer)
+    func speechSynthesizerDidPlay(_: SpeechSynthesizer)
+    func speechSynthesizerDidPause(_: SpeechSynthesizer)
 }
 
 protocol UserSettings {
@@ -49,16 +51,14 @@ class SpeechSynthesizer: NSObject {
         let commandCenter = MPRemoteCommandCenter.shared()
 
         commandCenter.playCommand.addTarget { [unowned self] _ in
-            if self.speechSynthesizer.isSpeaking {
-                self.speechSynthesizer.continueSpeaking()
+            if play() {
                 return .success
             }
             return .commandFailed
         }
 
         commandCenter.pauseCommand.addTarget { [unowned self] _ in
-            if self.speechSynthesizer.isSpeaking {
-                self.speechSynthesizer.pauseSpeaking(at: .immediate)
+            if pause() {
                 return .success
             }
             return .commandFailed
@@ -99,7 +99,25 @@ class SpeechSynthesizer: NSObject {
         currentUtterance = utterance
         updateNowPlayingInfo(title: title, subtitle: subtitle)
     }
+    
+    @discardableResult
+    func play() -> Bool {
+        if self.speechSynthesizer.isSpeaking {
+            self.speechSynthesizer.continueSpeaking()
+            return true
+        }
+        return false
+    }
 
+    @discardableResult
+    func pause() -> Bool {
+        if self.speechSynthesizer.isSpeaking {
+            self.speechSynthesizer.pauseSpeaking(at: .immediate)
+            return true
+        }
+        return false
+    }
+    
     private func updateNowPlayingInfo(title: String, subtitle: String) {
         var nowPlayingInfo = [String: Any]()
         nowPlayingInfo[MPMediaItemPropertyTitle] = title

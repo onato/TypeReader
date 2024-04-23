@@ -24,8 +24,6 @@ struct ContentView: View {
                     .sheet(isPresented: $documentViewModel.showDocumentPicker) {
                         DocumentPicker { url in
                             documentViewModel.fileURL = url
-                            documentViewModel.fileName = url.deletingPathExtension().lastPathComponent
-                            documentViewModel.documentPages = PDFTextExtractor().extractPagesFromPDF(url: url)
                         }
                     }
                 } else {
@@ -50,11 +48,46 @@ struct ContentView: View {
                         Image(systemName: "gear")
                     }
                 }
-                ToolbarItem(placement: .topBarLeading) {
+                ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: {
                         documentViewModel.isTracking = true
                     }) {
                         Image(systemName: "scope")
+                    }
+                }
+                ToolbarItem(placement: .bottomBar) {
+                    HStack(spacing: 50) {
+                        Button(action: {
+                            
+                            documentViewModel.skipBack()
+                        }) {
+                            Image(systemName: "backward")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 30, height: 30)
+                        }
+                        .disabled(!documentViewModel.isPlaying)
+                        .buttonStyle(PlainButtonStyle())
+                        Button(action: {
+                            documentViewModel.isPlaying.toggle()
+                        }) {
+                            Image(systemName: documentViewModel.isPlaying ? "pause.fill" : "play.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 30, height: 30)
+                        }
+                        .disabled(documentViewModel.documentPages.isEmpty)
+                        .buttonStyle(PlainButtonStyle())
+                        Button(action: {
+                            documentViewModel.skipForward()
+                        }) {
+                            Image(systemName: "forward")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 30, height: 30)
+                        }
+                        .disabled(!documentViewModel.isPlaying)
+                        .buttonStyle(PlainButtonStyle())
                     }
                 }
             }

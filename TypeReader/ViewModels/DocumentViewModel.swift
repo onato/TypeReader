@@ -29,19 +29,47 @@ import SwiftUI
     var textBeingSpoken: String = ""
     var textToSpeak: String = ""
     var fileName: String = ""
-    var fileURL: URL!
+    var fileURL: URL! {
+        didSet {
+            fileName = fileURL.deletingPathExtension().lastPathComponent
+            documentPages = PDFTextExtractor().extractPagesFromPDF(url: fileURL)
+        }
+    }
     var subtitle: String {
         documentPages.isEmpty ? "" : "\(currentPage + 1)/\(documentPages.count)"
+    }
+    var isPlaying = false {
+        didSet {
+            if isPlaying {
+                SpeechSynthesizer.shared.play()
+            } else {
+                SpeechSynthesizer.shared.pause()
+            }
+        }
     }
     var dateLastTouched = Date()
 
     private func speakText() {
+        guard !documentPages.isEmpty else { return }
+        
+        currentPage
         SpeechSynthesizer.shared.delegate = self
         SpeechSynthesizer.shared.speakText(documentPages[currentPage], title: fileName, subtitle: subtitle)
         
         textSpoken = ""
         textBeingSpoken = ""
         textToSpeak = documentPages[currentPage]
+        isPlaying = true
+    }
+    public func skipBack() {
+        guard currentPage > 0 else { return }
+        currentPage -= 1
+        isTracking = true
+    }
+    public func skipForward() {
+        guard currentPage < documentPages.count - 1 else { return }
+        currentPage += 1
+        isTracking = true
     }
     public func didTouchScreen() {
         dateLastTouched = Date()
@@ -49,6 +77,14 @@ import SwiftUI
 }
 
 extension DocumentViewModel: SpeechSynthesizerDelegate {
+    func speechSynthesizerDidPlay(_: SpeechSynthesizer) {
+//        isPlaying = true
+    }
+    
+    func speechSynthesizerDidPause(_: SpeechSynthesizer) {
+//        isPlaying = false
+    }
+    
     func speechSynthesizerDidSkipForward(_: SpeechSynthesizer) {
         guard currentPage < documentPages.count - 1 else { return }
         currentPage += 1

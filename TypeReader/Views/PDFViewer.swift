@@ -30,7 +30,9 @@ public struct PDFViewer: UIViewRepresentable {
             
             if isTracking, let page = document.page(at: currentPage) {
                 let destination = PDFDestination(page: page, at: CGPoint(x: 0, y: page.bounds(for: .mediaBox).height))
-                uiView.go(to: destination) // Scroll to the specific point on the page
+                UIView.animate(withDuration: 0.3) {
+                    uiView.go(to: destination)
+                }
             }
         }
     }
