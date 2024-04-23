@@ -60,7 +60,6 @@ import SwiftUI
     private func speakText() {
         guard !documentPages.isEmpty else { return }
         
-        currentPage
         SpeechSynthesizer.shared.delegate = self
         SpeechSynthesizer.shared.speakText(documentPages[currentPage], title: fileName, subtitle: subtitle)
         

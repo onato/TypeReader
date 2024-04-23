@@ -1,0 +1,38 @@
+name: CI for Xcode Project
+
+on:
+  # This workflow runs on every push and pull request to the main branch
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: macos-latest  # Ensure the workflow runs on a macOS environment
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Build and Test
+        run: |
+          # Set the Xcode version (optional, but recommended for consistency)
+          sudo xcode-select --switch /Applications/Xcode_15.3.app
+
+          # Download the dependencies
+          xcodebuild -resolvePackageDependencies -project TypeReader.xcodeproj
+
+          # Build the project and run the tests
+          xcodebuild \
+            -project TypeReader.xcodeproj \
+            -scheme TypeReader \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.4' \
+            clean test
+
+        # This will fail the job if any test fails
+        continue-on-error: false
+
