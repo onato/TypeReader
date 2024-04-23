@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest  # Ensure the workflow runs on a macOS environment
+    runs-on: macos-14
 
     steps:
       - name: Checkout Repository
@@ -19,9 +19,8 @@ jobs:
 
       - name: Build and Test
         run: |
-          # Set the Xcode version (optional, but recommended for consistency)
-          # sudo xcode-select --switch /Applications/Xcode_15.3.app/Contents/Developer
           ls /Applications/Xcode*
+          sudo xcode-select --switch /Applications/Xcode_15.3.app/Contents/Developer
             
           # Download the dependencies
           xcodebuild -resolvePackageDependencies -project TypeReader.xcodeproj
