@@ -22,9 +22,6 @@ jobs:
           ls /Applications | grep Xcode
           sudo xcode-select --switch /Applications/Xcode_15.3.app/Contents/Developer
             
-          # Download the dependencies
-          xcodebuild -resolvePackageDependencies -project TypeReader.xcodeproj
-
           # Build the project and run the tests
           xcodebuild \
             -project TypeReader.xcodeproj \
