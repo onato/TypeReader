@@ -28,7 +28,7 @@ jobs:
             -scheme TypeReader \
             -sdk iphonesimulator \
             -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.4' \
-            clean test | xcbeautify
+            clean test | xcbeautify --quiet --is-ci --renderer github-actions
 
         # This will fail the job if any test fails
         continue-on-error: false
