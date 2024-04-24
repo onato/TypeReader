@@ -1,13 +1,13 @@
-name: CI for Xcode Project
+name: Build and Test
 
 on:
-  # This workflow runs on every push and pull request to the main branch
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -30,6 +30,5 @@ jobs:
             -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.4' \
             clean test | xcbeautify --quiet --is-ci --renderer github-actions
 
-        # This will fail the job if any test fails
         continue-on-error: false
 
