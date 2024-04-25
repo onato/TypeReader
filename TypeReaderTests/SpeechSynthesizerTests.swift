@@ -4,10 +4,10 @@ import Nimble
 
 final class SpeechSynthesizerTests: XCTestCase {
     func test_SpeechSynthesizer_whenSettingsSet_shouldSetupUtterance() throws {
-        let mockUserSettings = UserSettingsMock()
-        mockUserSettings.floatForKeyReturnValue = 1.7
-        mockUserSettings.stringForKeyReturnValue = "com.apple.speech.synthesis.voice.Princess"
-        let sut = SpeechSynthesizer(userDefaults: mockUserSettings)
+        let settings = AppSettingsMock()
+        settings.selectedVoiceIdentifier = "com.apple.speech.synthesis.voice.Princess"
+        settings.speechRate = 1.7
+        let sut = SpeechSynthesizer(settings: settings)
         
         sut.speakText("Hello", title: "Filename", subtitle: "12/123")
         
@@ -16,9 +16,9 @@ final class SpeechSynthesizerTests: XCTestCase {
     }
     
     func test_SpeechSynthesizer_whenSettingsNotSet_shouldSetupUtterance() throws {
-        let mockUserSettings = UserSettingsMock()
-        mockUserSettings.floatForKeyReturnValue = 0
-        let sut = SpeechSynthesizer(userDefaults: mockUserSettings)
+        let settings = AppSettingsMock()
+        settings.speechRate = 0
+        let sut = SpeechSynthesizer(settings: settings)
         
         sut.speakText("Hello", title: "Filename", subtitle: "12/123")
         

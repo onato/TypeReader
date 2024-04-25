@@ -25,6 +25,9 @@
 		A792D69E2BCE30FE00D3ABDB /* SpeechSettingsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A792D69D2BCE30FE00D3ABDB /* SpeechSettingsViewModelTests.swift */; };
 		A792D6A02BCF5C8E00D3ABDB /* PDFViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A792D69F2BCF5C8E00D3ABDB /* PDFViewer.swift */; };
 		A792D6DB2BD5C20200D3ABDB /* PDFViewerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A792D6DA2BD5C20200D3ABDB /* PDFViewerTests.swift */; };
+		A79FA4302BDB1BC900CF949D /* AppSettingsMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79FA42F2BDB1BC900CF949D /* AppSettingsMock.swift */; };
+		A79FA4322BDB1F8700CF949D /* UserDefaultsAppSettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79FA4312BDB1F8700CF949D /* UserDefaultsAppSettingsTests.swift */; };
+		A79FA4352BDB253700CF949D /* UserDefaultsSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79FA4342BDB253700CF949D /* UserDefaultsSettings.swift */; };
 		A7DF8BD92BD5CECA0061A2B5 /* PDFHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DF8BD82BD5CECA0061A2B5 /* PDFHighlighter.swift */; };
 		A7F073DA2BD5E7A2002E06B3 /* SentenceFindingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F073D92BD5E7A2002E06B3 /* SentenceFindingTests.swift */; };
 		A7F073DD2BD5FA63002E06B3 /* String+SentenceFinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F073DC2BD5FA63002E06B3 /* String+SentenceFinding.swift */; };
@@ -62,6 +65,9 @@
 		A792D69D2BCE30FE00D3ABDB /* SpeechSettingsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechSettingsViewModelTests.swift; sourceTree = "<group>"; };
 		A792D69F2BCF5C8E00D3ABDB /* PDFViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewer.swift; sourceTree = "<group>"; };
 		A792D6DA2BD5C20200D3ABDB /* PDFViewerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewerTests.swift; sourceTree = "<group>"; };
+		A79FA42F2BDB1BC900CF949D /* AppSettingsMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsMock.swift; sourceTree = "<group>"; };
+		A79FA4312BDB1F8700CF949D /* UserDefaultsAppSettingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsAppSettingsTests.swift; sourceTree = "<group>"; };
+		A79FA4342BDB253700CF949D /* UserDefaultsSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsSettings.swift; sourceTree = "<group>"; };
 		A7DF8BD82BD5CECA0061A2B5 /* PDFHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFHighlighter.swift; sourceTree = "<group>"; };
 		A7F073D92BD5E7A2002E06B3 /* SentenceFindingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentenceFindingTests.swift; sourceTree = "<group>"; };
 		A7F073DC2BD5FA63002E06B3 /* String+SentenceFinding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+SentenceFinding.swift"; sourceTree = "<group>"; };
@@ -108,6 +114,7 @@
 		A78F726C2BC3827C000919DE /* TypeReader */ = {
 			isa = PBXGroup;
 			children = (
+				A79FA4332BDB252700CF949D /* Settings */,
 				A7F073DB2BD5FA46002E06B3 /* StringParsing */,
 				A7DF8BD72BD5CEAD0061A2B5 /* PDF */,
 				A78F72AA2BC4BC7F000919DE /* Views */,
@@ -141,6 +148,7 @@
 				A792D69D2BCE30FE00D3ABDB /* SpeechSettingsViewModelTests.swift */,
 				A792D6DA2BD5C20200D3ABDB /* PDFViewerTests.swift */,
 				A7F073D92BD5E7A2002E06B3 /* SentenceFindingTests.swift */,
+				A79FA4312BDB1F8700CF949D /* UserDefaultsAppSettingsTests.swift */,
 			);
 			path = TypeReaderTests;
 			sourceTree = "<group>";
@@ -185,8 +193,17 @@
 			isa = PBXGroup;
 			children = (
 				A792D69B2BCE2B7800D3ABDB /* UserSettingsMock.swift */,
+				A79FA42F2BDB1BC900CF949D /* AppSettingsMock.swift */,
 			);
 			path = Mocks;
+			sourceTree = "<group>";
+		};
+		A79FA4332BDB252700CF949D /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				A79FA4342BDB253700CF949D /* UserDefaultsSettings.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		A7DF8BD72BD5CEAD0061A2B5 /* PDF */ = {
@@ -316,6 +333,7 @@
 				A792D6A02BCF5C8E00D3ABDB /* PDFViewer.swift in Sources */,
 				A78F72A52BC39B12000919DE /* SpeechSynthesizer.swift in Sources */,
 				A78F72A92BC4BC65000919DE /* SpeechSettingsViewModel.swift in Sources */,
+				A79FA4352BDB253700CF949D /* UserDefaultsSettings.swift in Sources */,
 				A7F073DF2BD74F52002E06B3 /* ErrorMessage.swift in Sources */,
 				A78F729A2BC39267000919DE /* PDFTextExtractor.swift in Sources */,
 				A78F72982BC3840E000919DE /* DocumentPicker.swift in Sources */,
@@ -336,7 +354,9 @@
 				A792D6DB2BD5C20200D3ABDB /* PDFViewerTests.swift in Sources */,
 				A792D69E2BCE30FE00D3ABDB /* SpeechSettingsViewModelTests.swift in Sources */,
 				A792D69C2BCE2B7800D3ABDB /* UserSettingsMock.swift in Sources */,
+				A79FA4322BDB1F8700CF949D /* UserDefaultsAppSettingsTests.swift in Sources */,
 				A78F729C2BC393B7000919DE /* PDFTextExtractorTests.swift in Sources */,
+				A79FA4302BDB1BC900CF949D /* AppSettingsMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
