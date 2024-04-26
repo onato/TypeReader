@@ -3,6 +3,7 @@ import SwiftUI
 
 struct SpeechSettingsView: View {
     @ObservedObject var viewModel = SpeechSettingsViewModel()
+    @State private var isSliding: Bool = false
 
     var body: some View {
         NavigationView {
@@ -19,6 +20,8 @@ struct SpeechSettingsView: View {
                     Text("Slow")
                 } maximumValueLabel: {
                     Text("Fast")
+                } onEditingChanged: { _ in
+                    viewModel.releasedSlider()
                 }
             }
             .navigationBarTitle("Speech Settings")

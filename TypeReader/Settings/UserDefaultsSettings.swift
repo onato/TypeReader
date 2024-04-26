@@ -2,35 +2,39 @@ import Foundation
 import AVFoundation
 
 protocol AppSettings {
-    var selectedVoiceIdentifier: String { get set }
+    var selectedVoiceIdentifier: String? { get set }
     var speechRate: Float { get set }
 }
+
+protocol UserSettings {
+    func string(forKey defaultName: String) -> String?
+    func float(forKey defaultName: String) -> Float
+    func set(_ value: Any?, forKey defaultName: String)
+    func set(_ value: Float, forKey defaultName: String)
+}
+
+extension UserDefaults: UserSettings {}
 
 class UserDefaultsSettings: AppSettings {
     private let userSettings: UserSettings
     
-    var selectedVoiceIdentifier: String {
-        didSet {
-            userSettings.set(selectedVoiceIdentifier, forKey: "selectedVoiceIdentifier")
+    var selectedVoiceIdentifier: String? {
+        get {
+            userSettings.string(forKey: "selectedVoiceIdentifier")
+        }
+        set {
+            userSettings.set(newValue, forKey: "selectedVoiceIdentifier")
         }
     }
     var speechRate: Float {
-        didSet {
-            userSettings.set(speechRate, forKey: "speechRate")
+        get {
+            userSettings.float(forKey: "speechRate")
+        }
+        set {
+            userSettings.set(newValue, forKey: "speechRate")
         }
     }
     init(userDefaults: UserSettings = UserDefaults.standard) {
         self.userSettings = userDefaults
-        if let voiceIdentifier = userSettings.string(forKey: "selectedVoiceIdentifier") {
-            selectedVoiceIdentifier = voiceIdentifier
-        } else {
-            selectedVoiceIdentifier = (AVSpeechSynthesisVoice.speechVoices().first { voice in
-                voice.language == AVSpeechSynthesisVoice.currentLanguageCode()
-            })?.identifier ?? "There are no voices installed"
-        }
-        self.speechRate = userSettings.float(forKey: "speechRate")
-        if self.speechRate == 0 {
-            self.speechRate = AVSpeechUtteranceDefaultSpeechRate
-        }
     }
 }

@@ -11,30 +11,37 @@ protocol SpeechSynthesizerDelegate: AnyObject {
     func speechSynthesizerDidPause(_: SpeechSynthesizer)
 }
 
-protocol UserSettings {
-    func string(forKey defaultName: String) -> String?
-    func float(forKey defaultName: String) -> Float
-    func set(_ value: Any?, forKey defaultName: String)
-    func set(_ value: Float, forKey defaultName: String)
-}
-
-extension UserDefaults: UserSettings {}
-
 class SpeechSynthesizer: NSObject {
     static let shared = SpeechSynthesizer()
     private let speechSynthesizer = AVSpeechSynthesizer()
     var currentUtterance: AVSpeechUtterance?
     public weak var delegate: SpeechSynthesizerDelegate?
-    private let userSettings: UserSettings
+    private let settings: AppSettings
+    private var currentTitle: String?
+    private var currentSubtitle: String?
 
-    init(userDefaults: UserSettings = UserDefaults.standard) {
-        userSettings = userDefaults
+    init(settings: AppSettings = UserDefaultsSettings()) {
+        self.settings = settings
 
         super.init()
         speechSynthesizer.delegate = self
 
         setupAudioSession()
         configureRemoteTransportControls()
+        NotificationCenter.default.addObserver(self, selector: #selector(didChangeRate), name: .didChangeRate, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didChangeVoice), name: .didChangeVoice, object: nil)
+    }
+    
+    @objc
+    func didChangeRate(_ notification: Notification) {
+        guard let currentUtterance, let currentTitle, let currentSubtitle else { return }
+        speakText(currentUtterance.speechString, title: currentTitle, subtitle: currentSubtitle)
+    }
+    
+    @objc
+    func didChangeVoice(_ notification: Notification) {
+        guard let currentUtterance, let currentTitle, let currentSubtitle else { return }
+        speakText(currentUtterance.speechString, title: currentTitle, subtitle: currentSubtitle)
     }
 
     private func setupAudioSession() {
@@ -76,10 +83,13 @@ class SpeechSynthesizer: NSObject {
     }
 
     func speakText(_ text: String, title: String, subtitle: String) {
+        currentTitle = title
+        currentSubtitle = subtitle
+        
         speechSynthesizer.stopSpeaking(at: .immediate)
         let utterance = AVSpeechUtterance(string: text)
 
-        if let identifier = userSettings.string(forKey: "selectedVoiceIdentifier"),
+        if let identifier = settings.selectedVoiceIdentifier,
            let voice = AVSpeechSynthesisVoice.speechVoices().first(where: { $0.identifier == identifier })
         {
             utterance.voice = voice
@@ -91,7 +101,7 @@ class SpeechSynthesizer: NSObject {
             let defaultVoice = AVSpeechSynthesisVoice.speechVoices().first(where: { $0.language == AVSpeechSynthesisVoice.currentLanguageCode() })
             utterance.voice = voices.first ?? defaultVoice
         }
-        utterance.rate = userSettings.float(forKey: "speechRate")
+        utterance.rate = settings.speechRate
         if utterance.rate == 0 {
             utterance.rate = AVSpeechUtteranceDefaultSpeechRate
         }
