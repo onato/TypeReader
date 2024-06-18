@@ -9,7 +9,7 @@ final class SpeechSynthesizerTests: XCTestCase {
         settings.speechRate = 1.7
         let sut = SpeechSynthesizer(settings: settings)
         
-        sut.speakText("Hello", title: "Filename", subtitle: "12/123")
+        sut.speakText("", title: "Filename", subtitle: "12/123")
         
         expect(sut.currentUtterance?.voice?.identifier) == "com.apple.speech.synthesis.voice.Princess"
         expect(sut.currentUtterance?.rate) == 1.7
@@ -20,7 +20,7 @@ final class SpeechSynthesizerTests: XCTestCase {
         settings.speechRate = 0
         let sut = SpeechSynthesizer(settings: settings)
         
-        sut.speakText("Hello", title: "Filename", subtitle: "12/123")
+        sut.speakText("", title: "Filename", subtitle: "12/123")
         
         expect(sut.currentUtterance?.voice?.identifier) != nil
         expect(sut.currentUtterance?.rate) == 0.5
