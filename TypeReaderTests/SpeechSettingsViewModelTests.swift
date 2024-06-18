@@ -20,8 +20,8 @@ final class SpeechSettingsViewModelTests: XCTestCase {
         
         let sut = SpeechSettingsViewModel(settings: mockSettings)
 
-        expect(sut.speechRate) == 1.5
-        expect(sut.selectedVoiceIdentifier) == "com.apple.speech.synthesis.voice.Princess"
+        expect(sut.speechRate) == mockSettings.speechRate
+        expect(sut.selectedVoiceIdentifier) == mockSettings.selectedVoiceIdentifier
     }
     
     func test_SettingsViewModel_whenWantingEnglish_shouldFilterOtherLanguages() throws {
